@@ -13,11 +13,10 @@ from twilio.rest import Client
 import os
 
 TWILIO_ACCOUNT_SID = "ACdefff43a4a2bc41bd67fb1a939b9d21e"
-TWILIO_AUTH_TOKEN = "7e326dae2802b0072f19b459259d3ab6"
+TWILIO_AUTH_TOKEN = os.environ.get("AUTH_TOKEN")
 MY_LAT = 4.210484
 MY_LNG = 101.975769
-MY_API = "088803bb59c77e395c77dd4c64ef6961"
-# MY_API = OWM_API_KEY
+MY_API = os.environ.get("OWM_API_KEY")
 API_END_POINT = "https://api.openweathermap.org/data/2.5/forecast"
 
 # add the "cnt" parameter o limit the number of items in the response
