@@ -1,4 +1,4 @@
-# main-272-sms.py
+# main-27.py
 """
 1. Get lat and lng from latlong.net
 2. Make a request to the forecast API using the requests module
