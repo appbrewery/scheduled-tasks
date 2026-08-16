@@ -6,7 +6,7 @@
 4. Print the response to the console
 5. Copy-paste the response to an online JSON viewer
 6. Locate the weather id and description for each forecast
-task-272-Add code to send the message via Twilio
+task-276-Scheduling to trigger via GitHub
 """
 import requests
 from twilio.rest import Client
