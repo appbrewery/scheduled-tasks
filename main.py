@@ -12,7 +12,7 @@ import requests
 from twilio.rest import Client
 import os
 
-TWILIO_ACCOUNT_SID = "ACdefff43a4a2bc41bd67fb1a939b9d21e"
+TWILIO_ACCOUNT_SID = os.environ.get("ACCT_SID")
 TWILIO_AUTH_TOKEN = os.environ.get("AUTH_TOKEN")
 MY_LAT = 4.210484
 MY_LNG = 101.975769
