@@ -1,11 +1,5 @@
 # main-27.py
 """
-1. Get lat and lng from latlong.net
-2. Make a request to the forecast API using the requests module
-3. Print out the HTTP status code that you get back
-4. Print the response to the console
-5. Copy-paste the response to an online JSON viewer
-6. Locate the weather id and description for each forecast
 task-276-Scheduling to trigger via GitHub
 """
 import requests
