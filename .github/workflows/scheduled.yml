@@ -14,7 +14,7 @@ on:
     # ║                                                                ║
     # ║  Use https://time.is/UTC to find your local time in UTC       ║
     # ╚═══════════════════════════════════════════════════════════════╝
-    - cron: '0 9 * * *'
+    - cron: '30 18 * * *'
 
   # This adds a "Run workflow" button so you can test manually
   workflow_dispatch:
@@ -25,12 +25,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.12'
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
@@ -43,4 +43,6 @@ jobs:
           # Add more secrets in Settings > Secrets > Actions
           MY_EMAIL: ${{ secrets.MY_EMAIL }}
           MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
-        run: python main.py
+          YAHOO_USERNAME: ${{secrets.YAHOO_USERNAME}}
+          YAHOO_PASSWORD_FOR_SENDING_EMAIL: ${{secrets.YAHOO_PASSWORD_FOR_SENDING_EMAIL}}
+        run: python -u main.py
