@@ -3,6 +3,9 @@ name: Test Setup
 on:
   workflow_dispatch:  # Manual trigger only
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -10,6 +13,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+            node-version: '24'
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -56,6 +64,13 @@ jobs:
             exit 1
           fi
 
+          if [ -f "issoverhead.py" ]; then
+            echo "issoverhead.py found"
+          else
+            echo "issoverhead.py not found!"
+            exit 1
+          fi
+
           if [ -f "requirements.txt" ]; then
             echo "requirements.txt found"
           else
@@ -73,13 +88,16 @@ jobs:
           echo ""
           echo "All required files found!"
 
-      - name: Test Python syntax
-        run: python -m py_compile main.py && echo "Python syntax OK"
+      - name: Test Python syntax - main.py
+        run: python -m py_compile main.py && echo "main.py syntax OK"
+
+      - name: Test Python syntax - issoverhead.py
+        run: python -m py_compile issoverhead.py && echo "issoverhead.py syntax OK"
 
       - name: Success
         run: |
           echo ""
           echo "========================================"
           echo "  All checks passed!"
-          echo "  Your setup is ready to go."
+          echo "  Both Python files are ready to go."
           echo "========================================"
