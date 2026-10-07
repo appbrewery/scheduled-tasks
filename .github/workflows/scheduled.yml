@@ -14,7 +14,7 @@ on:
     # ║                                                                ║
     # ║  Use https://time.is/UTC to find your local time in UTC       ║
     # ╚═══════════════════════════════════════════════════════════════╝
-    - cron: '0 9 * * *'
+    - cron: '0 6 * * *'
 
   # This adds a "Run workflow" button so you can test manually
   workflow_dispatch:
