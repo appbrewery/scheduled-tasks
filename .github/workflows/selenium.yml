@@ -31,10 +31,18 @@ jobs:
       - name: Install system dependencies (Chrome)
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip libnss3 libgconf-2-4
-          # Add Google Chrome repo and install stable
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+          sudo apt-get install -y wget unzip libnss3 libgbm1
+
+          wget -q -O /tmp/google-chrome-key.asc \
+            https://dl.google.com/linux/linux_signing_key.pub
+
+          sudo gpg --dearmor \
+            --output /usr/share/keyrings/google-chrome.gpg \
+            /tmp/google-chrome-key.asc
+
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] https://dl.google.com/linux/chrome/deb/ stable main" \
+            | sudo tee /etc/apt/sources.list.d/google-chrome.list
+
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
 
