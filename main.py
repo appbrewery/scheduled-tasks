@@ -11,6 +11,9 @@ import pandas
 import random
 import smtplib
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # import os and use it to get the Github repository secrets
 MY_EMAIL = os.environ.get("MY_EMAIL")
