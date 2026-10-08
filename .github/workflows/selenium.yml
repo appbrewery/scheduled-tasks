@@ -69,3 +69,9 @@ jobs:
            SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
          run: |
            python library_renewal.py
+
+        - name: Show browser versions
+         run: |
+           google-chrome --version
+           chromedriver --version || true
+           python --version
