@@ -11,6 +11,9 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.service import Service
+
+service = Service()
 
 load_dotenv()
 
@@ -44,7 +47,7 @@ def get_required_env_values():
 
 def build_chrome_options():
     chrome_options = Options()
-    chrome_options.add_argument("--window-size=1920,1080")
+    chrome_options.add_argument("--window-size=1536,816")
 
     if os.getenv("GITHUB_ACTIONS", "").lower() == "true" or os.getenv("CI", "").lower() == "true":
         chrome_options.add_argument("--headless=new")
@@ -64,7 +67,7 @@ def main():
 
     driver = None
     try:
-        driver = webdriver.Chrome(options=build_chrome_options())
+        driver = webdriver.Chrome(service=service, options=build_chrome_options())
         driver.get(RPL_url)
 
         wait = WebDriverWait(driver, 7)
@@ -133,9 +136,6 @@ def main():
         if driver is not None:
             driver.quit()
 
-
-if __name__ == "__main__":
-    main()
 
 if __name__ == "__main__":
     main()
