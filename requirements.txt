@@ -1,0 +1,5 @@
+selenium
+python-dotenv
+smtplib
+selenium
+webdriver-manager
