@@ -3,3 +3,4 @@ python-dotenv
 smtplib
 selenium
 webdriver-manager
+pandas
