@@ -28,23 +28,33 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Install system dependencies (Chrome)
+      - name: Install system dependencies and Chrome
+        shell: bash
         run: |
+          set -euxo pipefail
+
           sudo apt-get update
-          sudo apt-get install -y wget unzip libnss3 libgbm1
+          sudo apt-get install -y \
+            ca-certificates \
+            curl \
+            gnupg \
+            unzip \
+            libnss3 \
+            libgbm1
 
-          wget -q -O /tmp/google-chrome-key.asc \
-            https://dl.google.com/linux/linux_signing_key.pub
+          sudo install -d -m 0755 /etc/apt/keyrings
 
-          sudo gpg --dearmor \
-            --output /usr/share/keyrings/google-chrome.gpg \
-            /tmp/google-chrome-key.asc
+          curl -fsSL https://dl.google.com/linux/linux_signing_key.pub \
+            | sudo gpg --dearmor --yes \
+                -o /etc/apt/keyrings/google-chrome.gpg
 
-          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] https://dl.google.com/linux/chrome/deb/ stable main" \
-            | sudo tee /etc/apt/sources.list.d/google-chrome.list
+          echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.gpg] https://dl.google.com/linux/chrome/deb/ stable main" \
+            | sudo tee /etc/apt/sources.list.d/google-chrome.list >/dev/null
 
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
+
+          google-chrome --version
 
       - name: Install Python dependencies
         run: |
