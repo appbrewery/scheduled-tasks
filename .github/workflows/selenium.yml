@@ -54,24 +54,23 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
 
-          google-chrome --version
-
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; else pip install selenium webdriver-manager; fi
 
-       - name: Run Selenium script
-         env:
-           BARCODE: ${{ secrets.BARCODE }}
-           PASSWORD: ${{ secrets.PASSWORD }}
-           EMAIL: ${{ secrets.EMAIL }}
-           SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
-         run: |
-           python library_renewal.py
+      - name: Show runtime and browser versions
+        run: |
+          python --version
+          python -c "import selenium; print('Selenium', selenium.__version__)"
+          google-chrome --version
+          chromedriver --version || echo "ChromeDriver not preinstalled; Selenium Manager will resolve it at runtime."
 
-        - name: Show browser versions
-         run: |
-           google-chrome --version
-           chromedriver --version || true
-           python --version
+      - name: Run Selenium script
+        env:
+          BARCODE: ${{ secrets.BARCODE }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          EMAIL: ${{ secrets.EMAIL }}
+          SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
+        run: |
+          python library_renewal.py
