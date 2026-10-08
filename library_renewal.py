@@ -4,6 +4,7 @@
 
 import time, os, smtplib
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -34,8 +35,12 @@ sender_email = str(os.getenv("EMAIL"))
 sender_password = str(os.getenv("SENDER_PASSWORD"))
 receiver_email = str(os.getenv("EMAIL"))
 
-driver = webdriver.Chrome()
-driver.maximize_window()
+chrome_options = Options()
+chrome_options.add_argument("--headless=new")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--window-size=1920,1080")
+driver = webdriver.Chrome(options=chrome_options)
 driver.get(RPL_url)
 
 wait = WebDriverWait(driver, 10)
