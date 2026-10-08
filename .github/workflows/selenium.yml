@@ -54,4 +54,4 @@ jobs:
       - name: Run Selenium script
         run: |
           # Update this to the path of your selenium script inside the repo
-          python scripts/my_selenium_test.py
+          python library_renewal.py
