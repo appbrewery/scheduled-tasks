@@ -1,0 +1,74 @@
+name: Run Selenium tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  selenium:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install system dependencies and Chrome
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          sudo apt-get update
+          sudo apt-get install -y \
+            ca-certificates \
+            curl \
+            gnupg \
+            unzip \
+            libnss3 \
+            libgbm1
+
+          sudo install -d -m 0755 /etc/apt/keyrings
+
+          curl -fsSL https://dl.google.com/linux/linux_signing_key.pub \
+            | sudo gpg --dearmor --yes \
+                -o /etc/apt/keyrings/google-chrome.gpg
+
+          echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.gpg] https://dl.google.com/linux/chrome/deb/ stable main" \
+            | sudo tee /etc/apt/sources.list.d/google-chrome.list >/dev/null
+
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; else pip install selenium webdriver-manager; fi
+  
+      - name: Remove pre-installed runner drivers
+        run: |
+          sudo rm -f /usr/bin/chromedriver
+          sudo rm -f /usr/local/bin/chromedriver
+  
+      - name: Run Selenium script
+        env:
+          BARCODE: ${{ secrets.BARCODE }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          EMAIL: ${{ secrets.EMAIL }}
+          SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
+        run: |
+          python library_renewal.py

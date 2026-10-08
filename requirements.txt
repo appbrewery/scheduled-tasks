@@ -1,1 +1,4 @@
+selenium
+python-dotenv
+webdriver-manager
 pandas
