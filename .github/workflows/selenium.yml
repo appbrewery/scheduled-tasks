@@ -61,7 +61,11 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; else pip install selenium webdriver-manager; fi
 
-      - name: Run Selenium script
-        run: |
-          # Update this to the path of your selenium script inside the repo
-          python library_renewal.py
+       - name: Run Selenium script
+         env:
+           BARCODE: ${{ secrets.BARCODE }}
+           PASSWORD: ${{ secrets.PASSWORD }}
+           EMAIL: ${{ secrets.EMAIL }}
+           SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
+         run: |
+           python library_renewal.py
