@@ -13,8 +13,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.service import Service
 
-service = Service()
-
 load_dotenv()
 
 RPL_url = "https://www.reginalibrary.ca/"
@@ -64,11 +62,17 @@ def main():
     sender_email = env_vars["EMAIL"]
     sender_password = env_vars["SENDER_PASSWORD"]
     receiver_email = sender_email
-
+    
     driver = None
     try:
-        driver = webdriver.Chrome(service=service, options=build_chrome_options())
+        # Create the Service object dynamically inside the runtime try block
+        from selenium.webdriver.chrome.service import Service
+        dynamic_service = Service() 
+        
+        # Pass the newly created dynamic_service here
+        driver = webdriver.Chrome(service=dynamic_service, options=build_chrome_options())
         driver.get(RPL_url)
+
 
         wait = WebDriverWait(driver, 7)
 
